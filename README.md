@@ -1,3 +1,5 @@
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/rply-stubs?style=for-the-badge)](https://pypi.org/project/rply-stubs/)
+
 # RPLY Stubs
 
 A stubs library for [RPLY](https://pypi.org/project/rply/)
