@@ -14,7 +14,7 @@ type ProductionParts = tuple[str, list[str], Callable, tuple[PrecedenceAssociati
 type Transition = list[tuple[int, LRItem]]
 type LookBacks = dict[tuple[int, LRItem], list[tuple[int, list]]]
 
-class ParserGeneratorSerializedTable(TypedDict):
+class SerializedLRTable(TypedDict):
     lr_action: list[dict[str, int]]
     lr_goto: list[dict[str, int]]
     sr_conflicts: list[tuple[int, str, Literal["reduce"] | Literal["nonassoc"] | Literal["shift"]]]
@@ -32,11 +32,10 @@ class ParserGenerator(object):
     tokens: list[Token]
     productions: list[ProductionParts]
     precedence: list[tuple[PrecedenceAssociativity, list[str]]]
-    # TODO
-    # cache_id: None | ...
+    cache_id: None | str
     error_handler: None | Callable
 
-    def __init__(self, tokens: list[Token], precedence: list[tuple[PrecedenceAssociativity, list[str]]]=[], cache_id=None):
+    def __init__(self, tokens: list[Token], precedence: list[tuple[PrecedenceAssociativity, list[str]]]=[], cache_id: str | None=None):
         ...
 
     def production(self, rule: str, precedence: tuple[PrecedenceAssociativity, list[str]] | None =None):
@@ -48,10 +47,10 @@ class ParserGenerator(object):
     def compute_grammar_hash(self, g: Grammar) -> str:
         ...
 
-    def serialize_table(self, table: "LRTable") -> ParserGeneratorSerializedTable:
+    def serialize_table(self, table: "LRTable") -> SerializedLRTable:
         ...
 
-    def data_is_valid(self, g: Grammar, data: ParserGeneratorSerializedTable) -> bool:
+    def data_is_valid(self, g: Grammar, data: SerializedLRTable) -> bool:
         ...
 
     def build(self) -> LRParser:
@@ -100,7 +99,7 @@ class LRTable(object):
         ...
 
     @classmethod
-    def from_cache(cls, grammar: Grammar, data: ParserGeneratorSerializedTable) -> "LRTable":
+    def from_cache(cls, grammar: Grammar, data: SerializedLRTable) -> "LRTable":
         ...
 
     @classmethod
