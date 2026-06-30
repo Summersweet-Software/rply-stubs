@@ -3,9 +3,9 @@ name = "rply-stubs"
 version = "0.1.0.0.7.8"
 description = "A stubs library for RPLY"
 readme = "README.md"
-requires-python = ">=3.12"                         # new Generics syntax used.
+requires-python = ">=3.12"                                               # new Generics syntax used.
 dependencies = ["rply==0.7.8"]
-authors = ["ArachnidAbby", "Summersweet-Software"]
+authors = [{ name = "ArachnidAbby" }, { name = "Summersweet-Software" }]
 
 license = { text = "MIT-only" }
 keywords = [
