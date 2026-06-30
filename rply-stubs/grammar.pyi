@@ -68,7 +68,7 @@ class LRItem(object):
     prod: list[str]
     number: int
     lr_index: int
-    lookaheads: dict[aaa, list[aaa]]
+    lookaheads: dict[Unknown, list[Unknown]]
     unique_syms: list[str]
     lr_before: str | None
     lr_after: list[Production]
