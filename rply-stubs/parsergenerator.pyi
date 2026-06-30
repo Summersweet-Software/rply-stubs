@@ -7,17 +7,20 @@ from rply.parser import LRParser
 
 from rply.token import Token
 
-
 LARGE_VALUE = sys.maxsize
 
-type ProductionParts = tuple[str, list[str], Callable, tuple[PrecedenceAssociativity, list[str]] | None]
+type ProductionParts = tuple[
+    str, list[str], Callable, tuple[PrecedenceAssociativity, list[str]] | None
+]
 type Transition = list[tuple[int, LRItem]]
 type LookBacks = dict[tuple[int, LRItem], list[tuple[int, list]]]
 
 class SerializedLRTable(TypedDict):
     lr_action: list[dict[str, int]]
     lr_goto: list[dict[str, int]]
-    sr_conflicts: list[tuple[int, str, Literal["reduce"] | Literal["nonassoc"] | Literal["shift"]]]
+    sr_conflicts: list[
+        tuple[int, str, Literal["reduce"] | Literal["nonassoc"] | Literal["shift"]]
+    ]
     rr_conflicts: list[tuple[int, str, str]]
     default_reductions: list[int]
     start: str | None
@@ -35,30 +38,25 @@ class ParserGenerator(object):
     cache_id: None | str
     error_handler: None | Callable
 
-    def __init__(self, tokens: list[Token], precedence: list[tuple[PrecedenceAssociativity, list[str]]]=[], cache_id: str | None=None):
-        ...
-
-    def production(self, rule: str, precedence: tuple[PrecedenceAssociativity, list[str]] | None =None):
-        ...
-
-    def error(self, func: Callable) -> Callable:
-       ...
-
-    def compute_grammar_hash(self, g: Grammar) -> str:
-        ...
-
-    def serialize_table(self, table: "LRTable") -> SerializedLRTable:
-        ...
-
-    def data_is_valid(self, g: Grammar, data: SerializedLRTable) -> bool:
-        ...
-
-    def build(self) -> LRParser:
-        ...
-
-    def _write_cache(self, cache_dir: str, cache_file: str, table: LRTable) -> None | Never:
-        ...
-
+    def __init__(
+        self,
+        tokens: list[Token],
+        precedence: list[tuple[PrecedenceAssociativity, list[str]]] = [],
+        cache_id: str | None = None,
+    ): ...
+    def production(
+        self,
+        rule: str,
+        precedence: tuple[PrecedenceAssociativity, list[str]] | None = None,
+    ): ...
+    def error(self, func: Callable) -> Callable: ...
+    def compute_grammar_hash(self, g: Grammar) -> str: ...
+    def serialize_table(self, table: "LRTable") -> SerializedLRTable: ...
+    def data_is_valid(self, g: Grammar, data: SerializedLRTable) -> bool: ...
+    def build(self) -> LRParser: ...
+    def _write_cache(
+        self, cache_dir: str, cache_file: str, table: LRTable
+    ) -> None | Never: ...
 
 # TODO
 
@@ -85,26 +83,31 @@ class ParserGenerator(object):
 #             F[stack[-1]] = F[x]
 #             element = stack.pop()
 
-
 class LRTable(object):
     grammar: Grammar
     lr_action: list[dict[str, int]]
     lr_goto: list[dict[str, int]]
     default_reductions: list[int]
-    sr_conflicts: list[tuple[int, str, Literal["reduce"] | Literal["nonassoc"] | Literal["shift"]]]
+    sr_conflicts: list[
+        tuple[int, str, Literal["reduce"] | Literal["nonassoc"] | Literal["shift"]]
+    ]
     rr_conflicts: list[tuple[int, str, str]]
 
-    def __init__(self, grammar: Grammar, lr_action: list[dict[str, int]], lr_goto: list[dict[str, int]], default_reductions: list[int],
-                 sr_conflicts: list[tuple[int, str, Literal["reduce"] | Literal["nonassoc"] | Literal["shift"]]], rr_conflicts: list[tuple[int, str, str]]):
-        ...
-
+    def __init__(
+        self,
+        grammar: Grammar,
+        lr_action: list[dict[str, int]],
+        lr_goto: list[dict[str, int]],
+        default_reductions: list[int],
+        sr_conflicts: list[
+            tuple[int, str, Literal["reduce"] | Literal["nonassoc"] | Literal["shift"]]
+        ],
+        rr_conflicts: list[tuple[int, str, str]],
+    ): ...
     @classmethod
-    def from_cache(cls, grammar: Grammar, data: SerializedLRTable) -> "LRTable":
-        ...
-
+    def from_cache(cls, grammar: Grammar, data: SerializedLRTable) -> "LRTable": ...
     @classmethod
-    def from_grammar(cls, grammar: Grammar) -> LRTable | Never:
-        ...
+    def from_grammar(cls, grammar: Grammar) -> LRTable | Never: ...
 
     # TODO
     # @classmethod
